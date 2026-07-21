@@ -1,0 +1,114 @@
+aid: hkex
+name: HKEX
+review:
+  question: Does HKEX expose a public, self-serve developer API for its market data?
+  answer: false
+  date: '2026-07-21'
+  reviewer: API Evangelist
+findings:
+  summary: |
+    HKEX is a classic exchange data arm, not an API-first vendor. There is no
+    developer portal (developer.hkex.com.hk, docs.hkex.com.hk, api.hkex.com.hk
+    all fail to resolve; hkex.com.hk/apis and /developers return 404), no
+    self-serve API keys, and no OpenAPI/Swagger/AsyncAPI specs anywhere.
+    Real-time securities and derivatives market data is sold through the HKEX
+    Orion Market Data (OMD) platform - OMD-C for the securities market and
+    OMD-D for the derivatives market - delivered as proprietary binary messages
+    over one-to-many IP multicast/UDP, licensed and entitlement-managed through
+    HKEX data licensing agreements. The interface specifications, developers
+    guides, and connectivity guides are freely downloadable PDFs, which is the
+    entire public documentation surface for the feeds. Historical tick / full
+    order book data, CCASS shareholding data, and securities attribute files
+    are sold through the HKEX Data Marketplace (data.hkex.com.hk/catalog), a
+    browsable storefront with SFTP, cloud-to-cloud, and direct-download
+    delivery and email-based onboarding (datamarketplace@hkex.com.hk) - no
+    documented REST API. The one genuinely documented HTTP API is the FINI API
+    Gateway for IPO settlement: RESTful JSON endpoints (GET /api/ipos/list/v1,
+    GET /api/ipos/refdata/v1, EIPO subscription and funding operations)
+    authenticated with OAuth 2.0 JWT-bearer grants (RSA JWKs registered on the
+    HKEX Access Management platform, token endpoint
+    https://openam.connect.hkex.com.hk/openam/oauth2/eu/access_token, TLS 1.2,
+    end-to-end payload encryption). FINI is restricted to registered HKSCC
+    participants, FINI banks, sponsors, and legal advisers - the API guide is
+    public but access is entitlement-gated, and the gateway/AM hosts are not
+    reachable from the open internet (connection failed when probed).
+  posture: sales-gated
+  authModel: |
+    OMD feeds: commercial data licensing agreements plus network-level
+    entitlements (no API keys). FINI API: OAuth 2.0 JWT-bearer (agent +
+    machine profile JWTs signed with registered RSA JWKs) issued by the HKEX
+    Access Management server, participant-only. Data Marketplace: account
+    onboarding via the HKEX data marketplace team.
+  deliveryChannels:
+  - MulticastBinaryFeed
+  - SFTP
+  - CloudTransfer
+  - FileDownload
+  - REST
+  specAvailability: |
+    No machine-readable OpenAPI/Swagger/AsyncAPI specs are published. OMD-C
+    and OMD-D binary interface specifications, developers guides, and
+    connectivity guides are public PDFs; the FINI API is documented in a
+    public PDF API guide only. Nothing was harvestable verbatim into
+    openapi/, so that folder is intentionally absent.
+  probes:
+  - url: https://developer.hkex.com.hk
+    status: 0
+    note: Does not resolve.
+  - url: https://docs.hkex.com.hk
+    status: 0
+    note: Does not resolve.
+  - url: https://api.hkex.com.hk
+    status: 0
+    note: Does not resolve.
+  - url: https://www.hkex.com.hk/apis
+    status: 404
+  - url: https://www.hkex.com.hk/developers
+    status: 404
+  - url: https://www.hkex.com.hk/
+    status: 200
+  - url: https://data.hkex.com.hk/catalog
+    status: 200
+    note: HKEX Data Marketplace storefront.
+  - url: https://www.hkex.com.hk/Services/Market-Data-Services/Infrastructure/HKEX-Orion-Market-Data-Platform-Securities-Market-OMD-C?sc_lang=en
+    status: 200
+  - url: https://www.hkex.com.hk/Services/Market-Data-Services/Infrastructure/HKEX-Orion-Market-Data-Platform-Derivatives-Market-OMD-D?sc_lang=en
+    status: 200
+  - url: https://www.hkex.com.hk/eng/prod/dataprod/Documents/HKEX_OMD-C_Binary_Interface_Specifications_v1.39b.pdf
+    status: 200
+    note: OMD-C binary interface specification PDF.
+  - url: https://www.hkex.com.hk/-/media/HKEX-Market/Services/Next-Generation-Post-Trade-Programme/Fini/FINI-API-User-Guide-v0,-d-,41.pdf
+    status: 200
+    note: FINI API User Guide PDF; confirms RESTful JSON endpoints and OAuth 2.0 JWT auth.
+  - url: https://www.hkex.com.hk/Services/Platform-Services/FINI?sc_lang=en
+    status: 200
+  - url: https://openam.connect.hkex.com.hk
+    status: 0
+    note: Documented FINI OAuth token host; not reachable from the public internet.
+  - url: https://www.hkex.com.hk/Services/Rules-and-Forms-and-Fees/Fees/Overview?sc_lang=en
+    status: 200
+    note: Public fee schedules; market data pricing is licensing-based, no self-serve tiers.
+  ownership: |
+    Hong Kong Exchanges and Clearing Limited is itself a listed company
+    (SEHK stock code 388) and is the parent of the London Metal Exchange
+    (LME) and LME Clear. It is not owned by another market data platform.
+sources:
+- url: https://www.hkex.com.hk/Services/Market-Data-Services/Real-Time-Data-Services/Overview?sc_lang=en
+  type: Documentation
+  note: Lists OMD-C SS/SP/SF, OMD-D DS/DP/DF datafeed tiers, IIS issuer news feed, and data licensing model.
+- url: https://www.hkex.com.hk/Services/Market-Data-Services/Historical-Data-Services/HKEX-Data-Marketplace?sc_lang=en
+  type: Documentation
+  note: Data Marketplace products and SFTP / cloud-to-cloud / direct-download delivery; contact-based onboarding.
+- url: https://www.hkex.com.hk/-/media/HKEX-Market/Services/Next-Generation-Post-Trade-Programme/Fini/FINI-API-User-Guide-v0,-d-,41.pdf
+  type: APIReference
+  note: FINI API Guide (harvested and read) - RESTful JSON endpoints, OAuth 2.0 JWT-bearer against openam.connect.hkex.com.hk, participant-only access.
+- url: https://www.hkex.com.hk/eng/prod/dataprod/Documents/HKEX_OMD-C_Binary_Interface_Specifications_v1.39b.pdf
+  type: APIReference
+  note: OMD-C binary interface specification - multicast/UDP binary message format.
+actions:
+  openapiHarvested: false
+  reason: |
+    No machine-readable API specification exists to harvest; all HKEX
+    interface documentation is PDF-based. Fabricating a spec is out of
+    scope, so the profile records the documented PDFs as APIReference
+    properties instead.
