@@ -12,7 +12,7 @@ description: HKEX (Hong Kong Exchanges and Clearing Limited, SEHK 388) operates 
   delivered via SFTP, cloud-to-cloud transfer, and direct download. Its one publicly
   documented RESTful JSON API is the FINI API Gateway for IPO settlement workflows,
   restricted to registered market participants using OAuth 2.0 JWT credentials.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/hkex.png
 tags:
 - Financial
 - Market Data
@@ -25,7 +25,7 @@ tags:
 - Reference Data
 - IPO
 created: '2026-07-21'
-modified: '2026-07-21'
+modified: '2026-07-22'
 specificationVersion: '0.19'
 apis:
 - aid: hkex:hkex-orion-market-data-securities-omd-c
@@ -79,6 +79,7 @@ apis:
   - Reference Data
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://data.hkex.com.hk/catalog
+  baseURL: https://data.hkex.com.hk
   properties:
   - url: https://data.hkex.com.hk/catalog
     type: Portal
@@ -114,6 +115,28 @@ apis:
     to registered HKSCC participants, FINI banks, sponsors, and advisers - not open
     self-serve signup - but the API guide is a public PDF.
 common:
+- type: Authentication
+  url: authentication/hkex-authentication.yml
+- type: OAuthScopes
+  url: scopes/hkex-scopes.yml
+- type: Conventions
+  url: conventions/hkex-conventions.yml
+- type: ErrorCatalog
+  url: errors/hkex-problem-types.yml
+- type: RateLimits
+  url: rate-limits/hkex-rate-limits.yml
+- type: ChangeLog
+  url: changelog/hkex-changelog.yml
+- type: Lifecycle
+  url: lifecycle/hkex-lifecycle.yml
+- type: Conformance
+  url: conformance/hkex-conformance.yml
+- type: LLMsTxt
+  url: llms/hkex-llms.txt
+- type: WellKnown
+  url: well-known/hkex-well-known.yml
+- type: DomainSecurity
+  url: security/hkex-domain-security.yml
 - type: Website
   url: https://www.hkex.com.hk/
 - type: Portal

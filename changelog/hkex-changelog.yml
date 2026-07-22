@@ -1,0 +1,39 @@
+generated: '2026-07-22'
+method: searched
+source: https://www.hkex.com.hk/-/media/HKEX-Market/Services/Next-Generation-Post-Trade-Programme/Fini/FINI-API-User-Guide-v0,-d-,41.pdf
+docs: https://www.hkex.com.hk/Services/Platform-Services/FINI?sc_lang=en
+description: >-
+  Dated change history of the HKEX FINI API, captured from the revision table
+  of the public FINI API User Guide (v0.41 lineage). HKEX evolves the API by
+  republishing the guide; there is no separate hosted changelog page.
+versioning:
+  scheme: dated revisions of the FINI API User Guide; endpoints carry a /v1 URI-path version
+  current: 8 November 2022 revision (guide v0.41)
+  detail: lifecycle/hkex-lifecycle.yml
+entries:
+- date: '2022-11-08'
+  latest: true
+  highlights:
+  - Added table of contents for other FINI User Guides
+  - Amended Agent and Machine Profile setup references to the HKEX Access Management User Guide
+- date: '2022-09-09'
+  breaking:
+  - Removed upwards price flexibility-related fields (Enquire IPO Reference Data and Enquire EIPO Funding endpoints)
+  highlights:
+  - Amended Java sample code for generating the X-FINI-SIGNATURE header
+  - Added section explaining the structure of unsuccessful responses
+- date: '2022-07-13'
+  breaking:
+  - Agent Profile JWT (G1) "sub" field amended from "hkexapi" to the user's Company ID in Client Connect
+- date: '2022-05-27'
+  breaking:
+  - All data payloads unified as arrays (from objects)
+  - IPO identifier unified as "ipoID"
+  highlights:
+  - Supplemented end-to-end encryption procedures
+  - Added warrants fields for SPACs (Enquire IPO Reference Data endpoint)
+  - Renamed adviser fields for SFC Code of Conduct
+  - IPO Status values updated for "Suspended" and "Cancelled"
+- date: '2022-01-05'
+  highlights:
+  - Initial version released to market participants in preparation of market testing

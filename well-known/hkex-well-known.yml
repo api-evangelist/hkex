@@ -1,0 +1,56 @@
+generated: '2026-07-22'
+method: searched
+description: >-
+  Probe of the /.well-known/ discovery surface on HKEX public hosts. No real
+  discovery documents were found: www.hkex.com.hk and www.hkexgroup.com return
+  404 for everything, and data.hkex.com.hk returns its SPA HTML shell (a
+  catch-all route) for openid-configuration, oauth-authorization-server and
+  api-catalog while its WAF returns 403 for security.txt, ai-plugin.json and
+  llms.txt. The FINI OAuth server (openam.connect.hkex.com.hk) is not reachable
+  from the public internet, so its ForgeRock OIDC discovery endpoint could not
+  be probed anonymously.
+hosts:
+- host: https://www.hkex.com.hk
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://data.hkex.com.hk
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: SPA HTML shell (catch-all route), not an OIDC discovery document — not saved
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SPA HTML shell (catch-all route), not an RFC 8414 document — not saved
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SPA HTML shell (catch-all route), not an api-catalog — not saved
+  - path: /.well-known/ai-plugin.json
+    status: 403
+- host: https://www.hkexgroup.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://openam.connect.hkex.com.hk
+  documents:
+  - path: /openam/oauth2/.well-known/openid-configuration
+    status: unreachable
+    note: host not resolvable/reachable from the public internet (participant network only)

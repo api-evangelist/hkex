@@ -1,0 +1,51 @@
+generated: '2026-07-22'
+method: searched
+source: https://www.hkex.com.hk/-/media/HKEX-Market/Services/Next-Generation-Post-Trade-Programme/Fini/FINI-API-User-Guide-v0,-d-,41.pdf
+docs: https://www.hkex.com.hk/Services/Platform-Services/FINI?sc_lang=en
+description: >-
+  Authentication profile for HKEX's one documented RESTful API, the FINI API
+  Gateway (IPO settlement). Access is restricted to registered market
+  participants (HKSCC Participants, FINI banks, sponsors, advisers). Clients
+  authenticate with OAuth 2.0 JWT-bearer grants (RFC 7523) against the HKEX
+  Access Management (ForgeRock OpenAM) server, presenting two RS256-signed
+  JWTs — an Agent Profile JWT (G1) and a Machine Profile JWT (G2) — whose RSA
+  JSON Web Keys (RFC 7517) are pre-registered on the HKEX Access Management
+  Portal. The AM server returns a FINI API JWT access token that is passed as
+  a Bearer token on every FINI API call. The OMD market-data feeds and the
+  Data Marketplace are not HTTP APIs and use licensing agreements / SFTP
+  credentials instead.
+summary:
+  types: [oauth2]
+  oauth2_flows: [jwt-bearer]
+  transport: TLS 1.2 minimum; PII request/response fields additionally use end-to-end field-level encryption
+schemes:
+- name: FINI OAuth 2.0 JWT-bearer
+  type: oauth2
+  flow: 'urn:ietf:params:oauth:grant-type:jwt-bearer'
+  client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
+  token_host: https://openam.connect.hkex.com.hk
+  token_path: /openam/oauth2/eu/access_token
+  assertions:
+  - name: Agent Profile JWT (G1)
+    algorithm: RS256
+    sub: user's Company ID in HKEX Client Connect
+    registered_key: Agent RSA JWK registered on HKEX Access Management Portal
+  - name: Machine Profile JWT (G2)
+    algorithm: RS256
+    registered_key: Machine RSA JWK registered on HKEX Access Management Portal
+  constraints:
+  - Agent/Machine Profile JWT expiration must be within 30 minutes or the AM server rejects it
+  - Access token expires_in 30 (seconds, per sample response); scope value returned is the Company ID (e.g. CP00001)
+  - Registered JWKs expire and must be rotated before expiry
+  usage: 'Send the FINI API JWT access token as "Authorization: Bearer <token>" on every FINI API request'
+  entitlements:
+  - function: EU_finiIPORefDataAPI
+    grants: /api/ipos/* (all FINI users)
+  - function: EU_finiPOSubAPI
+    grants: /api/eipo/subscriptions/* (HKSCC Participants)
+  - function: EU_finiPOFundAPI
+    grants: /api/eipo/funding/* (EIPO Designated Banks)
+notes:
+- No self-serve signup — credentials are provisioned through HKEX Client Connect / Access Management for registered participants only.
+- The OpenAM host is not reachable from the public internet; OIDC discovery could not be probed anonymously.
+- OMD-C / OMD-D datafeeds are licensed binary multicast feeds (no HTTP authentication surface); Data Marketplace delivery uses SFTP or cloud-to-cloud transfer arranged with the datamarketplace@hkex.com.hk team.

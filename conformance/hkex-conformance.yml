@@ -1,0 +1,41 @@
+generated: '2026-07-22'
+method: searched
+source: https://www.hkex.com.hk/-/media/HKEX-Market/Services/Next-Generation-Post-Trade-Programme/Fini/FINI-API-User-Guide-v0,-d-,41.pdf
+description: >-
+  Standards conformance of HKEX's API surfaces, assessed from the public FINI
+  API User Guide and the OMD interface specifications. FINI is the only
+  RESTful surface; OMD-C/OMD-D are proprietary binary multicast protocols.
+standards:
+- id: oauth2
+  conforms: true
+  evidence: FINI authenticates via OAuth 2.0 against ForgeRock OpenAM (token endpoint /openam/oauth2/eu/access_token)
+- id: oauth2-jwt-bearer-rfc7523
+  conforms: true
+  evidence: 'grant_type and client_assertion_type urn:ietf:params:oauth:grant-type:jwt-bearer per the guide'
+- id: jwt-rfc7519
+  conforms: true
+  evidence: Agent (G1) and Machine (G2) profile JWTs and the returned access token are RFC 7519 JWTs (guide cites the RFC)
+- id: jwk-rfc7517
+  conforms: true
+  evidence: registered RSA JSON Web Keys per RFC 7517 (guide cites RFC 7517 and RFC 7638 thumbprints)
+- id: oidc
+  conforms: false
+  evidence: no public OpenID Connect discovery surface; OpenAM host unreachable anonymously
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors use a custom code/message/exception envelope, not application/problem+json
+- id: cursor-pagination
+  conforms: true
+  evidence: size + nextCursor request params with nextCursor/totalSize response fields
+- id: tls-1.2
+  conforms: true
+  evidence: guide mandates TLS 1.2 minimum; live probe of www/data hosts negotiated TLSv1.3 (security/hkex-domain-security.yml)
+- id: rate-limiting-429
+  conforms: true
+  evidence: 480 req/60s company threshold signalled with HTTP 429
+- id: fix-protocol
+  conforms: false
+  evidence: OMD feeds use HKEX's proprietary binary message format over IP multicast, not FIX/FAST for market data distribution
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: no /.well-known/security.txt on any probed host (well-known/hkex-well-known.yml)

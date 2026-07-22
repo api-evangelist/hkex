@@ -1,0 +1,30 @@
+generated: '2026-07-22'
+method: searched
+source: https://www.hkex.com.hk/-/media/HKEX-Market/Services/Next-Generation-Post-Trade-Programme/Fini/FINI-API-User-Guide-v0,-d-,41.pdf
+docs: https://www.hkex.com.hk/Services/Platform-Services/FINI?sc_lang=en
+description: >-
+  OAuth surface of the HKEX FINI API Gateway. FINI does not use a classic
+  named-scope catalog: the OAuth 2.0 JWT-bearer token response returns the
+  participant's Company ID as the scope value (e.g. "scope": "CP00001"), and
+  endpoint-level authorization is instead governed by ForgeRock entitlement
+  functions assigned to the participant's profile on the HKEX Access
+  Management Portal. The three entitlement functions below are the effective
+  permission groups for the API's three endpoint categories.
+schemes:
+- name: FINI OAuth 2.0 JWT-bearer
+  flows:
+  - flow: 'urn:ietf:params:oauth:grant-type:jwt-bearer'
+    tokenUrl: https://openam.connect.hkex.com.hk/openam/oauth2/eu/access_token
+scope_model: >-
+  Token "scope" carries the Company ID rather than permissions; permissions are
+  ForgeRock functions bound to the registered Agent/Machine profiles.
+permissions:
+- permission: EU_finiIPORefDataAPI
+  grants: /api/ipos/*
+  description: Enquire IPO list and IPO reference data — available to all FINI user categories.
+- permission: EU_finiPOSubAPI
+  grants: /api/eipo/subscriptions/*
+  description: Add, change, invalidate and enquire EIPO public-offer subscription entries — HKSCC Participants.
+- permission: EU_finiPOFundAPI
+  grants: /api/eipo/funding/*
+  description: Confirm and enquire EIPO funding statuses — EIPO Designated Banks.

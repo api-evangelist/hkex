@@ -1,0 +1,35 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: HKEX
+providerId: hkex
+generated: '2026-07-22'
+method: searched
+created: '2026-07-22'
+modified: '2026-07-22'
+tags:
+- Rate Limiting
+- IPO
+- Post-Trade
+description: >-
+  Request throttling of the HKEX FINI API Gateway, from the public FINI API
+  User Guide. Throttles refresh every 60 seconds; each company registered on
+  the HKEX Access Management Portal has a 480-requests-per-60-seconds
+  threshold, and a global per-endpoint throttle sized to expected peak traffic
+  means HKEX recommends API machines stay at or under 60 requests per 60
+  seconds. Throttled requests receive HTTP 429.
+sources:
+- https://www.hkex.com.hk/-/media/HKEX-Market/Services/Next-Generation-Post-Trade-Programme/Fini/FINI-API-User-Guide-v0,-d-,41.pdf
+responseCodes:
+  throttled: 429
+limits:
+- name: Company threshold (FINI API Gateway)
+  scope: company
+  metric: requests_per_60_seconds
+  limit: 480
+  timeFrame: 60 seconds
+- name: Recommended per-machine ceiling (per endpoint global throttle)
+  scope: machine
+  metric: requests_per_60_seconds
+  limit: 60
+  timeFrame: 60 seconds

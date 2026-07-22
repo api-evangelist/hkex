@@ -1,0 +1,88 @@
+generated: '2026-07-22'
+method: searched
+source: https://www.hkex.com.hk/-/media/HKEX-Market/Services/Next-Generation-Post-Trade-Programme/Fini/FINI-API-User-Guide-v0,-d-,41.pdf
+description: >-
+  Cross-cutting request/response conventions of the HKEX FINI API Gateway
+  (the group's one documented RESTful JSON API, for IPO settlement workflows).
+  Captured from the public FINI API User Guide: auth style, cursor pagination,
+  identifier design, field-handling rules, the code/message/exception error
+  envelope, end-to-end field-level encryption headers, duplicate-request
+  protection, and rate-limit thresholds.
+base_url: >-
+  Not publicly published — the guide states "The production domain name of
+  FINI API endpoints will be provided in the next iteration" (distributed to
+  registered participants); the OAuth token host is
+  https://openam.connect.hkex.com.hk.
+api_style: REST over HTTPS (TLS 1.2 minimum), JSON requests and responses
+
+authentication:
+  scheme: OAuth 2.0 JWT-bearer (RFC 7523) against HKEX Access Management (ForgeRock OpenAM); FINI API JWT access token sent as Bearer
+  detail: authentication/hkex-authentication.yml
+
+request_headers:
+  required:
+    Accept: application/json
+    Accept-Language: en-US
+    Authorization: Bearer <FINI API JWT access token>
+  encrypted_endpoints_additional:
+    X-FINI-REQUEST-ID: client-generated unique request ID (duplicates rejected, error 411002)
+    X-FINI-TIMESTAMP: request timestamp (expired timestamps rejected, error 411004)
+    X-FINI-SIGNATURE: signed signature over the message (including null fields)
+    X-FINI-ENCRYPTED-KEY: Data Key + IV concatenation ("#" delimited) encrypted under the FINI public key
+    X-FINI-ENCRYPTION-CLIENT: identifies the client encrypting the payload
+
+duplicate_request_protection:
+  supported: true
+  scope: end-to-end-encrypted endpoints (EIPO subscription add/change/invalidate/query)
+  mechanism: >-
+    Client-generated unique X-FINI-REQUEST-ID per request; a reused Request ID
+    is rejected with error 411002 "Duplicate Request ID", preventing the same
+    submission from being processed twice. The guide does not document
+    replay-of-original-response semantics or a retention window.
+
+pagination:
+  style: cursor
+  request_params:
+    size: page size (unsigned 64-bit integer)
+    nextCursor: cursor string returned by the previous page
+  response_fields:
+    data: array of results
+    totalSize: total record count
+    nextCursor: cursor for the next page ("0" when exhausted)
+  example: GET /api/ipos/list/v1?size=5&nextCursor=0
+
+identifiers:
+  ipoID: unique IPO identifier (deliberately distinct from stock code / ISIN, which can be reused)
+  recordID: EIPO subscription — 16-digit integer + source suffix (O=online, B=bulk upload, A=API)
+  transactionRef: EIPO funding — 13-digit integer per participant per IPO
+
+field_handling:
+  leading_trailing_spaces: trimmed before validation
+  irrelevant_fields: ignored without processing
+  repeated_fields: only the first instance is validated and processed
+  optional_fields: absent optional fields stored as null
+  empty_response_fields: strings/integers/decimals → null, arrays → [], objects → {}
+
+error_envelope:
+  shape: '{code, message, data[], totalSize, timestamp, nextCursor, exception[{recordErrorCode, recordErrorMsg}]}'
+  success: code "0" with blank message
+  message_level: exception[] outside the data payload — request wholly rejected
+  entry_level: exception[] inside each data[] entry — bulk request partially/wholly rejected
+  detail: errors/hkex-problem-types.yml
+
+encryption:
+  end_to_end_field_encryption: >-
+    PII fields (idType, idCountryJurisdiction, idNum, fullNameEng, fullNameChi)
+    on the EIPO subscription endpoints must be AES-encrypted per request using
+    a Data Key/IV wrapped under the FINI public key fetched from
+    GET /api/crypto/meta; encrypted values carry the "%enc_%" prefix.
+
+versioning:
+  scheme: URI-path version suffix per endpoint (…/v1)
+  detail: lifecycle/hkex-lifecycle.yml
+
+rate_limits:
+  company_threshold: 480 requests per 60 seconds per registered company
+  recommended: <= 60 requests per 60 seconds per API machine to avoid per-endpoint global throttles
+  throttled_status: 429
+  detail: rate-limits/hkex-rate-limits.yml

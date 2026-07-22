@@ -1,0 +1,84 @@
+generated: '2026-07-22'
+method: searched
+source: https://www.hkex.com.hk/-/media/HKEX-Market/Services/Next-Generation-Post-Trade-Programme/Fini/FINI-API-User-Guide-v0,-d-,41.pdf
+format: custom-envelope
+description: >-
+  Error catalog of the HKEX FINI API Gateway. Errors are not RFC 9457 problem
+  details — every response uses a custom JSON envelope with a string "code"
+  ("0" = success), a "message", and an exception[] array of
+  {recordErrorCode, recordErrorMsg} at message level (request wholly rejected)
+  or entry level inside data[] (bulk request partially rejected). The OAuth
+  token endpoint returns standard OAuth error/error_description JSON.
+envelope:
+  fields: [code, message, data, totalSize, timestamp, nextCursor, exception]
+  success: code "0", blank message
+  error_indicator: code != "0" and non-blank message
+http_statuses:
+- status: 200
+  title: OK
+  description: The request has succeeded
+- status: 400
+  title: Bad Request
+  description: Invalid request
+- status: 401
+  title: Unauthorized
+  description: The FINI API JWT access token is invalid
+- status: 403
+  title: Forbidden
+  description: The client does not have access rights to the content
+- status: 404
+  title: Not Found
+  description: The server cannot find the requested resource
+- status: 429
+  title: Too Many Requests
+  description: Rate limiting (see rate-limits/hkex-rate-limits.yml)
+- status: 500
+  title: Internal Server Error
+  description: Internal Server Error
+- status: 503
+  title: Service Unavailable
+  description: API Service is not available
+- status: 504
+  title: Gateway Timeout
+  description: Timeout at the API Gateway
+oauth_token_errors:
+- error_description: JWT assertion is expired or invalid
+  cause: Agent Profile JWT (G1) expired
+- error_description: JWT has expired
+  cause: Machine Profile JWT (G2) expired
+- error_description: JWT expiration time is unreasonable
+  cause: Agent/Machine Profile JWT expiry is more than 30 minutes out
+- error_description: JWT assertion is not valid
+  cause: Agent Profile JWT invalid or unparseable
+- error_description: JWT could not parse
+  cause: Machine Profile JWT unparseable
+encryption_errors:
+- code: '411001'
+  message: Missing X-FINI-REQUEST-ID in the header
+- code: '411002'
+  message: Duplicate Request ID
+- code: '411003'
+  message: Missing X-FINI-TIMESTAMP in the header
+- code: '411004'
+  message: Request timestamp expired
+- code: '411005'
+  message: Missing X-FINI-SIGNATURE in the header
+- code: '411006'
+  message: Missing X-FINI-ENCRYPTED-KEY in the header
+- code: '411007'
+  message: Public key is wrong, FINI can't decrypt the encrypted key, please re-fetch crypto meta
+- code: '411008'
+  message: Signature error
+- code: '411009'
+  message: No such field {json_key}
+- code: '411010'
+  message: Cipher text format is wrong
+- code: '411011'
+  message: FINI can't decrypt the cipher text of the field {json_key}
+- code: '411999'
+  message: Crypto process exception
+record_error_examples:
+- code: '401900'
+  message: Invalid size format (must be an unsigned 64-bit integer)
+- code: '405904'
+  message: Invalid array size for data (must be 1 to 1000)

@@ -1,0 +1,28 @@
+generated: '2026-07-22'
+method: searched
+source: https://www.hkex.com.hk/-/media/HKEX-Market/Services/Next-Generation-Post-Trade-Programme/Fini/FINI-API-User-Guide-v0,-d-,41.pdf
+description: >-
+  Lifecycle posture of HKEX's API surfaces. The FINI API Gateway versions
+  endpoints with a URI-path suffix (…/v1) and evolves via dated revisions of
+  the public API User Guide (see changelog/hkex-changelog.yml); the guide
+  notes the production domain is distributed to registered participants
+  rather than published. The OMD-C/OMD-D binary datafeeds are versioned
+  through numbered interface-specification documents (e.g. OMD-C Binary
+  Interface Specifications v1.39b, OMD-D Developers Guide v1.26). HKEX
+  publishes no public API status page, SLA, or deprecation policy, and no
+  Sunset/Deprecation HTTP header support is documented.
+versioning:
+  fini:
+    scheme: uri-path
+    current: v1
+    docs: https://www.hkex.com.hk/Services/Platform-Services/FINI?sc_lang=en
+  omd:
+    scheme: versioned binary interface-specification documents
+    docs: https://www.hkex.com.hk/Services/Market-Data-Services?sc_lang=en
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No public deprecation policy documented; changes are communicated through revised user guides and participant circulars.
+sla: null
+status_page: null
+deprecated_operations: []
