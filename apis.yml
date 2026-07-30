@@ -12,6 +12,18 @@ description: HKEX (Hong Kong Exchanges and Clearing Limited, SEHK 388) operates 
   delivered via SFTP, cloud-to-cloud transfer, and direct download. Its one publicly
   documented RESTful JSON API is the FINI API Gateway for IPO settlement workflows,
   restricted to registered market participants using OAuth 2.0 JWT credentials.
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/hkex.png
 tags:
 - Financial
