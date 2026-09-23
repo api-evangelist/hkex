@@ -1,0 +1,25 @@
+# Front Door AI Index — hkex — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: hkex
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.hkex.com.hk
+  final_host: www.hkex.com.hk
+  ownership: own
+  owner: hkex
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 1
+  host_score: 1
+  density: 0.78
+  words: 1286
+  tiers:
+    agentic: 0
+    core: 1
+    model: 0
+  ambiguous: 0
+  top_terms:
+    AI: 1
