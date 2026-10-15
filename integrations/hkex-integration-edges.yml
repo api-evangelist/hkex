@@ -1,0 +1,73 @@
+edges:
+- partner_name: ISO 10383 (MIC)
+  partner: null
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
+  source: mic
+  category: registered trading venues and market segments
+  contract_reference:
+    register: ISO 10383 Market Identifier Codes (ISO 20022 registration authority)
+    spec_file: null
+    standard: ISO 10383
+    role: venue operator
+    matched_domain: hkex.com.hk
+    matched_by: domain+verified:hkex.com.hk
+    categories:
+    - NSPD
+    operating_mics:
+    - XHKF
+    - XHKG
+    mics:
+    - mic: XHKF
+      operating_mic: XHKF
+      segment: OPRT
+      market: HONG KONG FUTURES EXCHANGE LTD.
+      category: NSPD
+      legal_name: ''
+      country: HK
+    - mic: XHKG
+      operating_mic: XHKG
+      segment: OPRT
+      market: HONG KONG EXCHANGES AND CLEARING LTD
+      category: NSPD
+      legal_name: ''
+      country: HK
+    - mic: SHSC
+      operating_mic: XHKG
+      segment: SGMT
+      market: STOCK EXCHANGE OF HONG KONG LIMITED - SHANGHAI - HONG KONG STOCK CONNECT
+      category: NSPD
+      legal_name: ''
+      country: HK
+    - mic: SZSC
+      operating_mic: XHKG
+      segment: SGMT
+      market: STOCK EXCHANGE OF HONG KONG LIMITED - SHENZHEN - HONG KONG STOCK CONNECT
+      category: NSPD
+      legal_name: ''
+      country: HK
+    detected_by: sweep-capital-markets.py
+    detected: '2026-10-15'
+  detected_by: sweep-capital-markets.py
+  first_seen: '2026-10-15'
+- partner_name: Twelve Data
+  partner: twelvedata
+  partner_match: aggregator
+  channel: partner-built
+  direction: partner-built
+  type: coverage
+  relationship: connector-coverage
+  evidence: https://api.twelvedata.com/exchanges
+  source: twelvedata
+  matched_by: mic:XHKG->domain+verified:hkex.com.hk
+  mic: XHKG
+  detected_by: sweep-capital-markets.py
+  first_seen: '2026-10-15'
+generated: '2026-10-15'
+method: searched
+checked:
+- https://api.twelvedata.com/exchanges
+- https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
