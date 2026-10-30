@@ -1,4 +1,4 @@
-# HKEX (hkex)
+# HKEX
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,118 +66,103 @@
 
 HKEX (Hong Kong Exchanges and Clearing Limited, SEHK 388) operates the Stock Exchange of Hong Kong, the Hong Kong Futures Exchange, and their clearing houses, and also owns the London Metal Exchange. As an exchange data arm it sells real-time securities and derivatives market data through the sales-gated HKEX Orion Market Data (OMD) platform - binary multicast datafeeds licensed to vendors and subscribers rather than a self-serve HTTP API - plus historical tick, full order book, and CCASS shareholding reference data through the HKEX Data Marketplace, delivered via SFTP, cloud-to-cloud transfer, and direct download. Its one publicly documented RESTful JSON API is the FINI API Gateway for IPO settlement workflows, restricted to registered market participants using OAuth 2.0 JWT credentials.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/hkex/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/hkex/refs/heads/main/apis.yml)
+**Areas:** Finance · Market Data · Stocks · Derivatives · Exchange · Real-Time · Historical Data · Order Book · Reference Data · IPO
 
-## Tags
+## HKEX on APIs.io
 
-- Financial
-- Market Data
-- Stocks
-- Derivatives
-- Exchange
-- Real-Time
-- Historical Data
-- Order Book
-- Reference Data
-- IPO
+Everything profiled for HKEX is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/hkex/](https://apis.io/providers/hkex/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (4)
 
-- **Created:** 2026-07-21
-- **Modified:** 2026-07-21
+- [HKEX Orion Market Data Platform - Securities Market (OMD-C)](https://apis.io/apis/hkex/hkex-orion-market-data-securities-omd-c/) — Real-time datafeeds (OMD-C SS, SP, SF tiers) for all securities traded on the Stock Exchange of Hong Kong, published in a proprietary binary message format…
+- [HKEX Orion Market Data Platform - Derivatives Market (OMD-D)](https://apis.io/apis/hkex/hkex-orion-market-data-derivatives-omd-d/) — Real-time datafeeds (OMD-D DS, DP, DF tiers) for futures and options traded on the Hong Kong Futures Exchange, delivered in binary format over IP…
+- [HKEX Data Marketplace Historical Data](https://apis.io/apis/hkex/hkex-data-marketplace-historical-data/) — Web-based storefront for HKEX historical and reference data straight from the exchange - historical full order book tick data for securities and derivatives…
+- [HKEX FINI API](https://apis.io/apis/hkex/hkex-fini-api/) — The FINI (Fast Interface for New Issuance) API Gateway offers RESTful JSON endpoints (e.g. GET /api/ipos/list/v1, GET /api/ipos/refdata/v1) for market…
 
-## APIs
+### Published properties
 
-### HKEX Orion Market Data Platform - Securities Market (OMD-C)
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Real-time datafeeds (OMD-C SS, SP, SF tiers) for all securities traded on the Stock Exchange of Hong Kong, published in a proprietary binary message format over one-to-many IP multicast/UDP for high throughput and low latency. Not an HTTP API - access is licensed through HKEX data licensing agreements, and the binary interface specifications and connectivity guides are public PDFs.
+#### Security (2)
 
-- **Human URL:** [https://www.hkex.com.hk/Services/Market-Data-Services/Infrastructure/HKEX-Orion-Market-Data-Platform-Securities-Market-OMD-C?sc_lang=en](https://www.hkex.com.hk/Services/Market-Data-Services/Infrastructure/HKEX-Orion-Market-Data-Platform-Securities-Market-OMD-C?sc_lang=en)
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Tags
+- [Hkex Authentication](https://apis.io/security/hkex/hkex-authentication/)
+- [Hkex Domain Security](https://apis.io/security/hkex/hkex-domain-security/)
 
-- Market Data
-- Real-Time
-- Securities
-- Multicast
-- Order Book
+#### OAuth scopes (1)
 
-#### Properties
+The permissions the API asks for.
 
-- [Documentation](https://www.hkex.com.hk/Services/Market-Data-Services/Infrastructure/HKEX-Orion-Market-Data-Platform-Securities-Market-OMD-C?sc_lang=en)
-- [API Reference — OMD-C Binary Interface Specifications (PDF)](https://www.hkex.com.hk/eng/prod/dataprod/Documents/HKEX_OMD-C_Binary_Interface_Specifications_v1.39b.pdf)
+- [Hkex Scopes](https://apis.io/scopes/hkex/hkex-scopes/)
 
-### HKEX Orion Market Data Platform - Derivatives Market (OMD-D)
+#### Rate limits (1)
 
-Real-time datafeeds (OMD-D DS, DP, DF tiers) for futures and options traded on the Hong Kong Futures Exchange, delivered in binary format over IP multicast/UDP with separate channel sets for stock options and non-stock options markets. Licensed, sales-gated access; the binary interface specification and developers guide are public PDFs.
+Published request limits.
 
-- **Human URL:** [https://www.hkex.com.hk/Services/Market-Data-Services/Infrastructure/HKEX-Orion-Market-Data-Platform-Derivatives-Market-OMD-D?sc_lang=en](https://www.hkex.com.hk/Services/Market-Data-Services/Infrastructure/HKEX-Orion-Market-Data-Platform-Derivatives-Market-OMD-D?sc_lang=en)
+- [Hkex Rate Limits](https://apis.io/rate-limits/hkex/hkex-rate-limits/)
 
-#### Tags
+## Where to find this API
 
-- Market Data
-- Real-Time
-- Derivatives
-- Futures
-- Options
-- Multicast
-
-#### Properties
-
-- [Documentation](https://www.hkex.com.hk/Services/Market-Data-Services/Infrastructure/HKEX-Orion-Market-Data-Platform-Derivatives-Market-OMD-D?sc_lang=en)
-- [API Reference — OMD-D Developers Guide (PDF)](https://www.hkex.com.hk/-/media/HKEX-Market/Services/Market-Data-Services/Infrastructure/HKEX-Orion-Market-Data-Platform-Derivatives-Market-OMD-D/HKEX-OMDD-Developers-Guide-v1,-d-,26.pdf)
-
-### HKEX Data Marketplace Historical Data
-
-Web-based storefront for HKEX historical and reference data straight from the exchange - historical full order book tick data for securities and derivatives (CSV), CCASS shareholding data, and securities attribute daily files. Delivered via SFTP, cloud-to-cloud transfer, or direct download; onboarding is handled through the datamarketplace@hkex.com.hk team rather than self-serve API keys, and no REST API is documented.
-
-- **Human URL:** [https://data.hkex.com.hk/catalog](https://data.hkex.com.hk/catalog)
-
-#### Tags
-
-- Historical Data
-- Tick Data
-- Full Order Book
-- Shareholding
-- Reference Data
-
-#### Properties
-
-- [Portal](https://data.hkex.com.hk/catalog)
-- [Documentation](https://www.hkex.com.hk/Services/Market-Data-Services/Historical-Data-Services/HKEX-Data-Marketplace?sc_lang=en)
-
-### HKEX FINI API
-
-The FINI (Fast Interface for New Issuance) API Gateway offers RESTful JSON endpoints (e.g. `GET /api/ipos/list/v1`, `GET /api/ipos/refdata/v1`) for market participants to automate IPO workflows - IPO reference data, EIPO subscriptions, and EIPO funding. Authentication uses OAuth 2.0 JWT-bearer grants against the HKEX Access Management server (`https://openam.connect.hkex.com.hk`) with registered RSA JSON Web Keys, TLS 1.2, and end-to-end payload encryption. Access is restricted to registered HKSCC participants, FINI banks, sponsors, and advisers - not open self-serve signup - but the API guide is a public PDF.
-
-- **Human URL:** [https://www.hkex.com.hk/Services/Platform-Services/FINI?sc_lang=en](https://www.hkex.com.hk/Services/Platform-Services/FINI?sc_lang=en)
-
-#### Tags
-
-- IPO
-- Settlement
-- Reference Data
-- REST
-- Post-Trade
-
-#### Properties
-
-- [Documentation](https://www.hkex.com.hk/Services/Platform-Services/FINI?sc_lang=en)
-- [API Reference — FINI API User Guide (PDF)](https://www.hkex.com.hk/-/media/HKEX-Market/Services/Next-Generation-Post-Trade-Programme/Fini/FINI-API-User-Guide-v0,-d-,41.pdf)
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.hkex.com.hk/)
-- [Portal — HKEX Data Marketplace](https://data.hkex.com.hk/catalog)
-- [Documentation — Market Data Services](https://www.hkex.com.hk/Services/Market-Data-Services?sc_lang=en)
-- [LinkedIn](https://www.linkedin.com/company/hkex)
-- [Blog — HKEX Insight](https://www.hkexgroup.com/Media-Centre/Insight?sc_lang=en)
-- [Pricing — Fees Overview](https://www.hkex.com.hk/Services/Rules-and-Forms-and-Fees/Fees/Overview?sc_lang=en)
-- [Terms of Service](https://www.hkex.com.hk/Global/Exchange/Terms-of-Use?sc_lang=en)
-- [Privacy Policy](https://www.hkex.com.hk/Global/Exchange/HKEX-Privacy-Notices?sc_lang=en)
-- [Support — Contact](https://www.hkex.com.hk/Global/Exchange/Contact?sc_lang=en)
+- [Documentation](https://www.hkex.com.hk/Services/Market-Data-Services?sc_lang=en)
+- [Pricing](https://www.hkex.com.hk/Services/Rules-and-Forms-and-Fees/Fees/Overview?sc_lang=en)
+- [Support](https://www.hkex.com.hk/Global/Exchange/Contact?sc_lang=en)
+- [Blog](https://www.hkexgroup.com/Media-Centre/Insight?sc_lang=en)
+- [Terms of service](https://www.hkex.com.hk/Global/Exchange/Terms-of-Use?sc_lang=en)
+- [Privacy policy](https://www.hkex.com.hk/Global/Exchange/HKEX-Privacy-Notices?sc_lang=en)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 30.3** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 36.8 |
+| Developer ergonomics | 45.2 |
+| Access clarity | 31.6 |
+
+**Agent readiness 7.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 32.4** — Securities & Market Data
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/hkex/](https://apis.io/providers/hkex/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for HKEX: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/hkex/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
